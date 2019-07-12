@@ -1,8 +1,16 @@
-import React from 'react';
+import React from "react";
+import moment from "moment";
 
-import moment from 'moment';
+import { firestore } from "../firebase";
 
-const Post = ({ title, content, user, createdAt, stars, comments }) => {
+function removePost(postId) {
+  firestore
+    .collection("posts")
+    .doc(postId)
+    .delete();
+}
+
+function Post({ id, title, content, user, createdAt, stars, comments }) {
   return (
     <article className="Post">
       <div className="Post--content">
@@ -28,26 +36,28 @@ const Post = ({ title, content, user, createdAt, stars, comments }) => {
         </div>
         <div>
           <button className="star">Star</button>
-          <button className="delete">Delete</button>
+          <button className="delete" onClick={() => removePost(id)}>
+            Delete
+          </button>
         </div>
       </div>
     </article>
   );
-};
+}
 
 Post.defaultProps = {
-  title: 'An Incredibly Hot Take',
+  title: "An Incredibly Hot Take",
   content:
-    'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus est aut dolorem, dolor voluptatem assumenda possimus officia blanditiis iusto porro eaque non ab autem nihil! Alias repudiandae itaque quo provident.',
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus est aut dolorem, dolor voluptatem assumenda possimus officia blanditiis iusto porro eaque non ab autem nihil! Alias repudiandae itaque quo provident.",
   user: {
-    id: '123',
-    displayName: 'Bill Murray',
-    email: 'billmurray@mailinator.com',
-    photoURL: 'https://www.fillmurray.com/300/300',
+    id: "123",
+    displayName: "Bill Murray",
+    email: "billmurray@mailinator.com",
+    photoURL: "https://www.fillmurray.com/300/300"
   },
   createdAt: new Date(),
   stars: 0,
-  comments: 0,
+  comments: 0
 };
 
 export default Post;

@@ -1,61 +1,55 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from "react";
+import { firestore } from "../firebase";
 
-class AddPost extends Component {
-  state = { title: '', content: '' };
+export default function AddPost() {
+  const [postFormFields, setPostFormFields] = useState({
+    title: "",
+    content: ""
+  });
 
-  handleChange = event => {
+  function handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+    setPostFormFields({ ...postForm, [name]: value });
+  }
 
-  handleSubmit = event => {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    const { onCreate } = this.props;
-    const { title, content } = this.state;
-
+    const { title, content } = postFormFields;
     const post = {
-      id: Date.now().toString(),
       title,
       content,
       user: {
-        uid: '1111',
-        displayName: 'Steve Kinney',
-        email: 'steve@mailinator.com',
-        photoURL: 'http://placekitten.com/g/200/200',
+        uid: "1111",
+        displayName: "Steve Kinney",
+        email: "steve@mailinator.com",
+        photoURL: "http://placekitten.com/g/200/200"
       },
       favorites: 0,
       comments: 0,
-      createdAt: new Date(),
-    }
-
-    onCreate(post);
-
-    this.setState({ title: '', content: '' });
-  };
-
-  render() {
-    const { title, content } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit} className="AddPost">
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={title}
-          onChange={this.handleChange}
-        />
-        <input
-          type="text"
-          name="content"
-          placeholder="Body"
-          value={content}
-          onChange={this.handleChange}
-        />
-        <input className="create" type="submit" value="Create Post" />
-      </form>
-    );
+      createdAt: new Date()
+    };
+    firestore.collection("posts").add(post);
+    this.setState({ title: "", content: "" });
   }
-}
 
-export default AddPost;
+  return (
+    <form onSubmit={this.handleSubmit} className="AddPost">
+      <input
+        type="text"
+        name="title"
+        placeholder="Title"
+        value={title}
+        onChange={this.handleChange}
+      />
+      <input
+        type="text"
+        name="content"
+        placeholder="Body"
+        value={content}
+        onChange={this.handleChange}
+      />
+      <input className="create" type="submit" value="Create Post" />
+    </form>
+  );
+}
