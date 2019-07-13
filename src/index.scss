@@ -195,3 +195,29 @@ input[type="file"] {
     content: ' ';
   }
 }
+
+nav {
+  display: flex;
+  align-items: center;
+  padding-bottom: .5em;
+  border-bottom: 1px solid black;
+  margin-bottom: 2em;
+
+  h1 {
+    flex: 1;
+    padding-left: .5em;
+  }
+
+  ul {
+    display: flex;
+    list-style-type: none;
+  }
+
+  li {
+    padding: .5em 2em;
+  }
+
+  li:not(:first-child) {
+    border-left: 1px solid black;
+  }
+}
