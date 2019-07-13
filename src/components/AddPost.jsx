@@ -9,7 +9,7 @@ export default function AddPost() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setPostFormFields({ ...postForm, [name]: value });
+    setPostFormFields({ ...postFormFields, [name]: value });
   }
 
   function handleSubmit(event) {
@@ -30,24 +30,24 @@ export default function AddPost() {
       createdAt: new Date()
     };
     firestore.collection("posts").add(post);
-    this.setState({ title: "", content: "" });
+    setPostFormFields({ title: "", content: "" });
   }
 
   return (
-    <form onSubmit={this.handleSubmit} className="AddPost">
+    <form onSubmit={handleSubmit} className="AddPost">
       <input
         type="text"
         name="title"
         placeholder="Title"
-        value={title}
-        onChange={this.handleChange}
+        value={postFormFields.title}
+        onChange={handleChange}
       />
       <input
         type="text"
         name="content"
         placeholder="Body"
-        value={content}
-        onChange={this.handleChange}
+        value={setPostFormFields.content}
+        onChange={handleChange}
       />
       <input className="create" type="submit" value="Create Post" />
     </form>
