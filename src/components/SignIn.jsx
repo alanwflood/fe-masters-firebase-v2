@@ -1,45 +1,57 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from "react";
+import { Redirect } from "react-router-dom";
 
-class SignIn extends Component {
-  state = { email: '', password: '' };
+import { paths } from "./Router";
+import UserContext from "../context/UserContext";
+import { signInWithGoogle } from "../firebase";
 
-  handleChange = event => {
+export default function SignIn() {
+  const defaultSignInFormFields = { email: "", password: "" };
+  const userContext = useContext(UserContext);
+
+  const [signInFormFields, setSignInFormFields] = useState(
+    defaultSignInFormFields
+  );
+
+  function handleChange(event) {
     const { name, value } = event.target;
-
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-
-    this.setState({ email: '', password: '' });
-  };
-
-  render() {
-    const { email, password } = this.state;
-
-    return (
-      <form className="SignIn" onSubmit={this.handleSubmit}>
-        <h2>Sign In</h2>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={this.handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={this.handleChange}
-        />
-        <input type="submit" value="Sign In" />
-        <button>Sign In With Google</button>
-      </form>
-    );
+    setSignInFormFields({ ...signInFormFields, [name]: value });
   }
-}
 
-export default SignIn;
+  function handleSubmit(event) {
+    event.preventDefault();
+    setSignInFormFields(defaultSignInFormFields);
+  }
+
+  async function googleSignIn() {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return userContext.isSignedIn ? (
+    <Redirect to={paths.Posts} />
+  ) : (
+    <form className="SignIn" onSubmit={handleSubmit}>
+      <h2>Sign In</h2>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={signInFormFields.email}
+        onChange={handleChange}
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={signInFormFields.password}
+        onChange={handleChange}
+      />
+      <input type="submit" value="Sign In" />
+      <button onClick={() => googleSignIn()}>Sign In With Google</button>
+    </form>
+  );
+}

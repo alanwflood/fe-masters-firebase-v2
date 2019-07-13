@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import Authentication from "./Authentication";
 import Router from "./Router";
-import { firestore } from "../firebase";
 
 export default function Application() {
-  const [user, setUser] = useState(null);
-
-  return <Router />;
+  return (
+    <Authentication>
+      <Router />
+    </Authentication>
+  );
 }

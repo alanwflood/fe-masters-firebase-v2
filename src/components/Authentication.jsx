@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import isEmpty from "lodash/isEmpty";
+import { auth } from "../firebase";
+import UserContext from "../context/UserContext";
 
-import CurrentUser from './CurrentUser';
-import SignInAndSignUp from './SignInAndSignUp';
+export default function Authentication({ children }) {
+  const [user, setUser] = useState({ loading: true, isSignedIn: false });
 
-const Authentication = ({ user, loading }) => {
-  if (loading) return null;
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      const userLoggedIn = !isEmpty(user);
+      setUser({ loading: false, isSignedIn: userLoggedIn, ...user });
+    });
+    return () => unsubscribe;
+  }, []);
 
-  return <div>{user ? <CurrentUser /> : <SignInAndSignUp />}</div>;
-};
-
-export default Authentication;
+  return (
+    <UserContext.Provider value={user}>
+      {user.loading ? null : children}
+    </UserContext.Provider>
+  );
+}

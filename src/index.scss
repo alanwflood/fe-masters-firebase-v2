@@ -145,6 +145,10 @@ input[type="file"] {
   }
 }
 
+.Posts .AddPostLink {
+  padding-bottom: 1em;
+}
+
 .Post {
   border: 1px solid $input-color;
   margin-bottom: 1em;
@@ -219,5 +223,10 @@ nav {
 
   li:not(:first-child) {
     border-left: 1px solid black;
+  }
+
+  .active {
+    color: tomato;
+    font-weight: bold;
   }
 }

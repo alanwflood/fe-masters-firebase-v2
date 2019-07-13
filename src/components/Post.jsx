@@ -20,8 +20,8 @@ async function updateStars(postRef) {
 }
 
 function Post({ id, title, content, user, createdAt, stars, comments }) {
-  console.log(id);
   const postRef = getPost(id);
+
   return (
     <article className="Post">
       <div className="Post--content">

@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
 
-import moment from 'moment';
+import { paths } from "./Router";
 
-const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
+import UserContext from "../context/UserContext";
+import { auth } from "../firebase";
+
+import moment from "moment";
+
+const CurrentUser = () => {
+  const User = useContext(UserContext);
+
+  if (!User) {
+    return <Redirect to={paths.SignIn} />;
+  }
+
+  const { displayName, photoURL, email, createdAt, children } = User;
+
   return (
     <section className="CurrentUser">
       <div className="CurrentUser--profile">
@@ -15,17 +29,17 @@ const CurrentUser = ({ displayName, photoURL, email, createdAt, children }) => {
       </div>
       <div>
         <div>{children}</div>
-        <button>Sign Out</button>
+        <button onClick={() => auth.signOut()}>Sign Out</button>
       </div>
     </section>
   );
 };
 
 CurrentUser.defaultProps = {
-  displayName: 'Bill Murray',
-  email: 'billmurray@mailinator.com',
-  photoURL: 'https://www.fillmurray.com/300/300',
-  createdAt: new Date(),
+  displayName: "Bill Murray",
+  email: "billmurray@mailinator.com",
+  photoURL: "https://www.fillmurray.com/300/300",
+  createdAt: new Date()
 };
 
 export default CurrentUser;
