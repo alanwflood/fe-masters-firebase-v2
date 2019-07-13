@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import { firestore } from "../firebase";
 
 export default function AddPost() {
@@ -25,7 +25,7 @@ export default function AddPost() {
         email: "steve@mailinator.com",
         photoURL: "http://placekitten.com/g/200/200"
       },
-      favorites: 0,
+      stars: 0,
       comments: 0,
       createdAt: new Date()
     };

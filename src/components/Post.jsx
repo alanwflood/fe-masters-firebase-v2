@@ -3,14 +3,25 @@ import moment from "moment";
 
 import { firestore } from "../firebase";
 
-function removePost(postId) {
-  firestore
-    .collection("posts")
-    .doc(postId)
-    .delete();
+function getPost(postId) {
+  return firestore.doc(`posts/${postId}`);
+}
+
+function removePost(postRef) {
+  return postRef.delete();
+}
+
+async function updateStars(postRef) {
+  const post = await postRef.get();
+  const postData = post.data();
+  const stars = postData.stars || 0;
+  const update = await postRef.update({ stars: stars + 1 });
+  return update;
 }
 
 function Post({ id, title, content, user, createdAt, stars, comments }) {
+  console.log(id);
+  const postRef = getPost(id);
   return (
     <article className="Post">
       <div className="Post--content">
@@ -35,8 +46,10 @@ function Post({ id, title, content, user, createdAt, stars, comments }) {
           <p>{moment(createdAt).calendar()}</p>
         </div>
         <div>
-          <button className="star">Star</button>
-          <button className="delete" onClick={() => removePost(id)}>
+          <button className="star" onClick={() => updateStars(postRef)}>
+            Star
+          </button>
+          <button className="delete" onClick={() => removePost(postRef)}>
             Delete
           </button>
         </div>
