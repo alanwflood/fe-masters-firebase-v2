@@ -1,51 +1,69 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
+import { auth } from "../firebase";
+import { createUserProfileDocument } from "../firebase/user";
 
-class SignUp extends Component {
-  state = { displayName: '', email: '', password: '' };
-
-  handleChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value });
+export default function SignUp() {
+  const defaultSignUpFormFields = {
+    displayName: "",
+    email: "",
+    password: ""
   };
 
-  handleSubmit = event => {
+  const [signUpFormFields, setSignUpFormFields] = useState(
+    defaultSignUpFormFields
+  );
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    this.setState({ displayName: '', email: '', password: '' });
-  };
+    try {
+      const { email, password, displayName } = signUpFormFields;
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
 
-  render() {
-    const { displayName, email, password } = this.state;
+      createUserProfileDocument({ ...user, displayName });
+    } catch (error) {
+      console.error(error);
+    }
 
-    return (
-      <form className="SignUp" onSubmit={this.handleSubmit}>
-        <h2>Sign Up</h2>
-        <input
-          type="text"
-          name="displayName"
-          placeholder="Display Name"
-          value={displayName}
-          onChange={this.handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={this.handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={this.handleChange}
-        />
-        <input type="submit" value="Sign Up" />
-      </form>
-    );
+    setSignUpFormFields(defaultSignUpFormFields);
   }
-}
 
-export default SignUp;
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setSignUpFormFields({ ...signUpFormFields, [name]: value });
+  }
+
+  return (
+    <form className="SignUp" onSubmit={handleSubmit}>
+      <h2>Sign Up</h2>
+      <input
+        type="text"
+        name="displayName"
+        placeholder="Display Name"
+        value={signUpFormFields.displayName}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={signUpFormFields.email}
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={signUpFormFields.password}
+        onChange={handleChange}
+        required
+      />
+      <input type="submit" value="Sign Up" />
+    </form>
+  );
+}

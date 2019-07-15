@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import { paths } from "./Router";
 import UserContext from "../context/UserContext";
-import { signInWithGoogle } from "../firebase";
+import { auth, signInWithGoogle } from "../firebase";
+import { paths } from "./Router";
 
 export default function SignIn() {
   const defaultSignInFormFields = { email: "", password: "" };
@@ -20,6 +20,16 @@ export default function SignIn() {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    debugger;
+
+    const { email, password } = signInFormFields;
+    try {
+      auth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      console.log(error);
+    }
+
     setSignInFormFields(defaultSignInFormFields);
   }
 
