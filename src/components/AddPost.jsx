@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { firestore } from "../firebase";
+import { Redirect } from "react-router-dom";
+
+import { firestore, auth } from "../firebase";
 
 export default function AddPost() {
   const [postFormFields, setPostFormFields] = useState({
     title: "",
     content: ""
   });
+  const [postCreated, setPostCreated] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -16,24 +19,30 @@ export default function AddPost() {
     event.preventDefault();
 
     const { title, content } = postFormFields;
+    const { uid, displayName, email, photoURL } = auth.currentUser;
+
     const post = {
       title,
       content,
       user: {
-        uid: "1111",
-        displayName: "Steve Kinney",
-        email: "steve@mailinator.com",
-        photoURL: "http://placekitten.com/g/200/200"
+        uid,
+        displayName,
+        email,
+        photoURL
       },
       stars: 0,
       comments: 0,
       createdAt: new Date()
     };
+
     firestore.collection("posts").add(post);
     setPostFormFields({ title: "", content: "" });
+    setPostCreated(true);
   }
 
-  return (
+  return postCreated ? (
+    <Redirect to="/" />
+  ) : (
     <form onSubmit={handleSubmit} className="AddPost">
       <input
         type="text"
