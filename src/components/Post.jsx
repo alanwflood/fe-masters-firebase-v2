@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import { distanceInWordsToNow } from "date-fns";
 
 import { firestore } from "../firebase";
 
@@ -43,7 +43,7 @@ function Post({ id, title, content, user, createdAt, stars, comments }) {
             {comments}
           </p>
           <p>Posted by {user.displayName}</p>
-          <p>{moment(createdAt.toDate()).calendar()}</p>
+          <p>{distanceInWordsToNow(createdAt.toDate())} ago</p>
         </div>
         <div>
           <button className="star" onClick={() => updateStars(postRef)}>

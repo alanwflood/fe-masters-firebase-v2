@@ -5,8 +5,7 @@ import { paths } from "./Router";
 
 import UserContext from "../context/UserContext";
 import { auth } from "../firebase";
-
-import moment from "moment";
+import { distanceInWordsToNow } from "date-fns";
 
 const CurrentUser = () => {
   const User = useContext(UserContext);
@@ -24,7 +23,9 @@ const CurrentUser = () => {
         <div className="CurrentUser--information">
           <h2>{displayName}</h2>
           <p className="email">{email}</p>
-          <p className="created-at">{moment(createdAt).calendar()}</p>
+          <p className="created-at">
+            Joined: {distanceInWordsToNow(createdAt)} ago
+          </p>
         </div>
       </div>
       <div>
