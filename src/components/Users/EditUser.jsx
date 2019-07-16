@@ -1,49 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
+import { firestore } from "../../firebase";
+import { UserContext } from "../../providers/Authentication";
 
 export default function EditUser() {
-  const defaultSignInFormFields = { email: "", password: "" };
-  const [signInFormFields, setSignInFormFields] = useState(
-    defaultSignInFormFields
-  );
+  const User = useContext(UserContext);
+  const userRef = firestore.doc(`users/${User.uid}`);
+
+  const defaultUserFormFields = { displayName: "", photoURL: "" };
+  const [userFormFields, setUserFormFields] = useState(defaultUserFormFields);
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setSignInFormFields({ ...signInFormFields, [name]: value });
+    setUserFormFields({ ...userFormFields, [name]: value });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    const { displayName, photoURL } = userFormFields;
 
-    debugger;
+    const isDisplayNameValid =
+      displayName !== "" && displayName !== User.displayName;
 
-    const { email, password } = signInFormFields;
-    try {
-      auth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      console.log(error);
+    if (isDisplayNameValid) {
+      userRef.update({ displayName });
     }
 
-    setSignInFormFields(defaultSignInFormFields);
+    setUserFormFields(defaultUserFormFields);
   }
 
   return (
     <form className="SignIn" onSubmit={handleSubmit}>
-      <h2>Sign In</h2>
+      <h2>Update User</h2>
       <input
         type="file"
         name="photoURL"
-        value={signInFormFields.email}
+        value={userFormFields.photoURL}
         onChange={handleChange}
       />
       <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={signInFormFields.password}
+        type="text"
+        name="displayName"
+        placeholder="Name"
+        value={userFormFields.displayName}
         onChange={handleChange}
       />
       <input type="submit" value="Sign In" />
-      <button onClick={() => googleSignIn()}>Sign In With Google</button>
     </form>
   );
 }
