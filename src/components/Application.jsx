@@ -1,11 +1,11 @@
 import React from "react";
-import Authentication from "../providers/Authentication";
+import AuthenticationProvider from "../providers/Authentication";
 import Router from "./Router";
 
 export default function Application() {
   return (
-    <Authentication>
+    <AuthenticationProvider>
       <Router />
-    </Authentication>
+    </AuthenticationProvider>
   );
 }

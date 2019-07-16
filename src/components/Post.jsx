@@ -1,7 +1,12 @@
 import React from "react";
 import { distanceInWordsToNow } from "date-fns";
 
-import { firestore } from "../firebase";
+import { firestore, auth } from "../firebase";
+
+function userCanDelete(currentUser, user) {
+  if (!currentUser) return false;
+  return currentUser.uid === user.uid;
+}
 
 function getPost(postId) {
   return firestore.doc(`posts/${postId}`);
@@ -21,6 +26,8 @@ async function updateStars(postRef) {
 
 function Post({ id, title, content, user, createdAt, stars, comments }) {
   const postRef = getPost(id);
+  const canDeletePost = userCanDelete(auth.currentUser, user);
+  const canStarPost = !!auth.currentUser;
 
   return (
     <article className="Post">
@@ -46,12 +53,16 @@ function Post({ id, title, content, user, createdAt, stars, comments }) {
           <p>{distanceInWordsToNow(createdAt.toDate())} ago</p>
         </div>
         <div>
-          <button className="star" onClick={() => updateStars(postRef)}>
-            Star
-          </button>
-          <button className="delete" onClick={() => removePost(postRef)}>
-            Delete
-          </button>
+          {canStarPost ? (
+            <button className="star" onClick={() => updateStars(postRef)}>
+              Star
+            </button>
+          ) : null}
+          {canDeletePost ? (
+            <button className="delete" onClick={() => removePost(postRef)}>
+              Delete
+            </button>
+          ) : null}
         </div>
       </div>
     </article>

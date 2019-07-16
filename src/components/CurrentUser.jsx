@@ -7,7 +7,7 @@ import { UserContext } from "../providers/Authentication";
 import { auth } from "../firebase";
 import { distanceInWordsToNow } from "date-fns";
 
-const CurrentUser = () => {
+function CurrentUser() {
   const User = useContext(UserContext);
 
   if (!User) {
@@ -15,6 +15,13 @@ const CurrentUser = () => {
   }
 
   const { displayName, photoURL, email, createdAt, children } = User;
+
+  function SignOut() {
+    if (auth.currentUser) {
+      auth.signOut();
+      return true;
+    }
+  }
 
   return (
     <section className="CurrentUser">
@@ -30,11 +37,11 @@ const CurrentUser = () => {
       </div>
       <div>
         <div>{children}</div>
-        <button onClick={() => auth.signOut()}>Sign Out</button>
+        <button onClick={() => SignOut()}>Sign Out</button>
       </div>
     </section>
   );
-};
+}
 
 CurrentUser.defaultProps = {
   displayName: "Bill Murray",
