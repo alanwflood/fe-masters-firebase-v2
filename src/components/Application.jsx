@@ -1,5 +1,5 @@
 import React from "react";
-import Authentication from "./Authentication";
+import Authentication from "../providers/Authentication";
 import Router from "./Router";
 
 export default function Application() {

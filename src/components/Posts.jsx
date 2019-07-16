@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { paths } from "./Router";
 import { firestore } from "../firebase";
 import Post from "./Post";
-import UserContext from "../context/UserContext";
+import { UserContext } from "../providers/Authentication";
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);

@@ -7,7 +7,7 @@ import AddPost from "./AddPost";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import CurrentUser from "./CurrentUser";
-import UserContext from "../context/UserContext";
+import { UserContext } from "../providers/Authentication";
 
 export const paths = {
   Posts: "/",

@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import { paths } from "./Router";
 
-import UserContext from "../context/UserContext";
+import { UserContext } from "../providers/Authentication";
 import { auth } from "../firebase";
 import { distanceInWordsToNow } from "date-fns";
 
@@ -24,7 +24,7 @@ const CurrentUser = () => {
           <h2>{displayName}</h2>
           <p className="email">{email}</p>
           <p className="created-at">
-            Joined: {distanceInWordsToNow(createdAt)} ago
+            Joined: {distanceInWordsToNow(createdAt.toDate())} ago
           </p>
         </div>
       </div>

@@ -13,18 +13,22 @@ export default function SignUp() {
     defaultSignUpFormFields
   );
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     try {
       const { email, password, displayName } = signUpFormFields;
+      setIsSubmitting(true);
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
 
-      createUserProfileDocument({ ...user, displayName });
+      await createUserProfileDocument({ ...user, displayName });
     } catch (error) {
+      setIsSubmitting(false);
       console.error(error);
     }
 
@@ -63,7 +67,12 @@ export default function SignUp() {
         onChange={handleChange}
         required
       />
-      <input type="submit" value="Sign Up" />
+      <input
+        type="submit"
+        value="Sign Up"
+        className={isSubmitting ? "loading" : ""}
+        disabled={isSubmitting ? "disabled" : ""}
+      />
     </form>
   );
 }

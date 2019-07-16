@@ -2,7 +2,7 @@ import React, { useContext, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
 import { paths } from "./Router";
-import UserContext from "../context/UserContext";
+import { UserContext } from "../providers/Authentication";
 
 export default function NavigationBar() {
   const User = useContext(UserContext);

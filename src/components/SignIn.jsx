@@ -1,14 +1,8 @@
-import React, { useContext, useState } from "react";
-import { Redirect } from "react-router-dom";
-
-import UserContext from "../context/UserContext";
+import React, { useState } from "react";
 import { auth, signInWithGoogle } from "../firebase";
-import { paths } from "./Router";
 
 export default function SignIn() {
   const defaultSignInFormFields = { email: "", password: "" };
-  const userContext = useContext(UserContext);
-
   const [signInFormFields, setSignInFormFields] = useState(
     defaultSignInFormFields
   );
@@ -41,9 +35,7 @@ export default function SignIn() {
     }
   }
 
-  return userContext.isSignedIn ? (
-    <Redirect to={paths.Posts} />
-  ) : (
+  return (
     <form className="SignIn" onSubmit={handleSubmit}>
       <h2>Sign In</h2>
       <input

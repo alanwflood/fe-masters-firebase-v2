@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
-import { firestore, auth } from "../firebase";
+import { UserContext } from "../providers/Authentication";
+import { firestore } from "../firebase";
 
 export default function AddPost() {
+  const User = useContext(UserContext);
   const [postFormFields, setPostFormFields] = useState({
     title: "",
     content: ""
@@ -19,7 +21,7 @@ export default function AddPost() {
     event.preventDefault();
 
     const { title, content } = postFormFields;
-    const { uid, displayName, email, photoURL } = auth.currentUser;
+    const { uid, displayName, email, photoURL } = User;
 
     const post = {
       title,
