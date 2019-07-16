@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-
-import { paths } from "./Router";
-
-import { UserContext } from "../providers/Authentication";
-import { auth } from "../firebase";
 import { distanceInWordsToNow } from "date-fns";
+
+import { paths } from "../Router";
+
+import { UserContext } from "../../providers/Authentication";
+import { auth } from "../../firebase";
 
 function CurrentUser() {
   const User = useContext(UserContext);

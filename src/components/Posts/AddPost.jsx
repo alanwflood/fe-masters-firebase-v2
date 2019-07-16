@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
-import { UserContext } from "../providers/Authentication";
-import { firestore } from "../firebase";
+import { UserContext } from "../../providers/Authentication";
+import { firestore } from "../../firebase";
 
 export default function AddPost() {
   const User = useContext(UserContext);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { auth } from "../firebase";
-import { createUserProfileDocument } from "../firebase/user";
+
+import { auth } from "../../firebase";
+import { createUserProfileDocument } from "../../firebase/user";
 
 export default function SignUp() {
   const defaultSignUpFormFields = {

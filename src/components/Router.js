@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import NavigationBar from "./Nav";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import Posts from "./Posts";
-import AddPost from "./AddPost";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import CurrentUser from "./CurrentUser";
+import Posts from "./Posts/Posts";
+import AddPost from "./Posts/AddPost";
+import SignIn from "./Users/SignIn";
+import SignUp from "./Users/SignUp";
+import CurrentUser from "./Users/CurrentUser";
 import { UserContext } from "../providers/Authentication";
 
 export const paths = {

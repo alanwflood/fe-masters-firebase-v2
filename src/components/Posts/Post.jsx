@@ -1,7 +1,7 @@
 import React from "react";
 import { distanceInWordsToNow } from "date-fns";
 
-import { firestore, auth } from "../firebase";
+import { firestore, auth } from "../../firebase";
 
 function userCanDelete(currentUser, user) {
   if (!currentUser) return false;
