@@ -7,12 +7,14 @@ import AddPost from "./Posts/AddPost";
 import SignIn from "./Users/SignIn";
 import SignUp from "./Users/SignUp";
 import CurrentUser from "./Users/CurrentUser";
+import EditUser from "./Users/EditUser";
 import { UserContext } from "../providers/Authentication";
 
 export const paths = {
   Posts: "/",
   AddPost: "/posts/add",
   Profile: "/profile",
+  ProfileEdit: "/profile/edit",
   SignIn: "/sign-in",
   SignUp: "/sign-up",
   SignOut: "/sign-out"
@@ -69,9 +71,16 @@ export default function ThinkPieceRouter() {
           redirectPath={paths.SignIn}
         />
         <AuthorizedRoute
+          exact
           component={CurrentUser}
           condition={isSignedIn}
           path={paths.Profile}
+          redirectPath={paths.SignIn}
+        />
+        <AuthorizedRoute
+          component={EditUser}
+          condition={isSignedIn}
+          path={paths.ProfileEdit}
           redirectPath={paths.SignIn}
         />
       </main>

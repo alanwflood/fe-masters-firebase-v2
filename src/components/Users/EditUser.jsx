@@ -17,7 +17,9 @@ export default function EditUser() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const { displayName, photoURL } = userFormFields;
+    const {
+      displayName //, photoURL
+    } = userFormFields;
 
     const isDisplayNameValid =
       displayName !== "" && displayName !== User.displayName;

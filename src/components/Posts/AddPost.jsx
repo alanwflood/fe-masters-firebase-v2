@@ -17,7 +17,7 @@ export default function AddPost() {
     setPostFormFields({ ...postFormFields, [name]: value });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const { title, content } = postFormFields;
@@ -37,15 +37,17 @@ export default function AddPost() {
       createdAt: new Date()
     };
 
-    firestore.collection("posts").add(post);
-    setPostFormFields({ title: "", content: "" });
-    setPostCreated(true);
+    try {
+      await firestore.collection("posts").add(post);
+      setPostCreated(true);
+    } catch (error) {
+      console.error("Error creating post:", error.message);
+    }
   }
 
-  return postCreated ? (
-    <Redirect to="/" />
-  ) : (
+  return (
     <form onSubmit={handleSubmit} className="AddPost">
+      {postCreated ? <Redirect to="/" /> : null}
       <input
         type="text"
         name="title"

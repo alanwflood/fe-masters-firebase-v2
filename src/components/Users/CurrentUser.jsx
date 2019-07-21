@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { distanceInWordsToNow } from "date-fns";
 
 import { paths } from "../Router";
@@ -37,6 +37,8 @@ function CurrentUser() {
       </div>
       <div>
         <div>{children}</div>
+        <Link to={paths.ProfileEdit}>Update Profile</Link>
+        <hr />
         <button onClick={() => SignOut()}>Sign Out</button>
       </div>
     </section>

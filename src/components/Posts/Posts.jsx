@@ -15,7 +15,10 @@ export default function Posts() {
       const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPosts(posts);
     });
-    return () => unsubscribe;
+
+    return function cleanup() {
+      unsubscribe();
+    };
   }, []);
 
   return (
