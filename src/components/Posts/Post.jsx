@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { distanceInWordsToNow } from "date-fns";
 
 import { firestore, auth } from "../../firebase";
@@ -28,11 +29,14 @@ function Post({ id, title, content, user, createdAt, stars, comments }) {
   const postRef = getPost(id);
   const canDeletePost = userCanDelete(auth.currentUser, user);
   const canStarPost = !!auth.currentUser;
+  const postPath = `/posts/${id}`;
 
   return (
     <article className="Post">
       <div className="Post--content">
-        <h3>{title}</h3>
+        <h3>
+          <Link to={postPath}>{title}</Link>
+        </h3>
         <div>{content}</div>
       </div>
       <div className="Post--meta">

@@ -3,6 +3,7 @@ import NavigationBar from "./Nav";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import Posts from "./Posts/Posts";
+import Post from "./Posts/PostPage";
 import AddPost from "./Posts/AddPost";
 import SignIn from "./Users/SignIn";
 import SignUp from "./Users/SignUp";
@@ -13,6 +14,7 @@ import { UserContext } from "../providers/Authentication";
 export const paths = {
   Posts: "/",
   AddPost: "/posts/add",
+  Post: "/posts/:postId",
   Profile: "/profile",
   ProfileEdit: "/profile/edit",
   SignIn: "/sign-in",
@@ -52,6 +54,7 @@ export default function ThinkPieceRouter() {
       <NavigationBar />
       <main className="Application">
         <Route path={paths.Posts} exact component={Posts} />
+        <Route path={paths.Post} exact component={Post} />
         <AuthorizedRoute
           component={SignIn}
           condition={!isSignedIn}

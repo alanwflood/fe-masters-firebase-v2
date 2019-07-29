@@ -15,7 +15,7 @@ $danger-color: #de6b48;
   }
   &[disabled] {
     cursor: not-allowed;
-    opacity: .6;
+    opacity: 0.6;
   }
 }
 
@@ -45,9 +45,9 @@ button {
   }
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   border: none;
   border-bottom: 1px solid $input-color;
   font-size: 1.5em;
@@ -55,14 +55,16 @@ input[type='password'] {
 }
 
 button,
-input[type='submit'],
+input[type="submit"],
 .button {
   display: block;
   width: 100%;
   font-size: 1.1em;
   padding: 0.5em;
   @include button($button-color);
-  &.star, &.create, &.update {
+  &.star,
+  &.create,
+  &.update {
     @include button($input-color);
   }
   &.delete {
@@ -120,13 +122,13 @@ input[type="file"] {
     margin-bottom: 1em;
   }
   .created-at:before {
-    content: 'Joined';
+    content: "Joined";
     color: $comment-highlight-color;
     font-weight: bold;
     margin: 0.5em 0.5em;
   }
   .email:before {
-    content: 'Email';
+    content: "Email";
     color: $comment-highlight-color;
     font-weight: bold;
     margin: 0.5em 0.5em;
@@ -196,27 +198,27 @@ input[type="file"] {
   color: $comment-highlight-color;
   font-weight: bold;
   &:after {
-    content: ': ';
+    content: ": ";
   }
 }
 
 .Comment--timestamp {
   color: darken($info-color, 40);
   &:before {
-    content: ' ';
+    content: " ";
   }
 }
 
 nav {
   display: flex;
   align-items: center;
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
   border-bottom: 1px solid black;
   margin-bottom: 2em;
 
   h1 {
     flex: 1;
-    padding-left: .5em;
+    padding-left: 0.5em;
   }
 
   ul {
@@ -225,7 +227,7 @@ nav {
   }
 
   li {
-    padding: .5em 2em;
+    padding: 0.5em 2em;
   }
 
   li:not(:first-child) {
@@ -237,5 +239,3 @@ nav {
     font-weight: bold;
   }
 }
-
-test
