@@ -1,34 +1,54 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from "react";
+import { firestore } from "../firebase";
+import { UserContext } from "../providers/Authentication";
 
-class AddComment extends Component {
-  state = { content: '' };
+function AddComment({ postId }) {
+  const User = useContext(UserContext);
+  const [commentFields, setCommentFields] = useState({ content: "" });
 
-  handleChange = event => {
+  function handleChange(event) {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+    setCommentFields({ [name]: value });
+  }
 
-  handleSubmit = event => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    this.setState({ content: '' });
-  };
+    const comment = {
+      content: commentFields.content,
+      createdAt: new Date(),
+      user: User
+    };
 
-  render() {
-    const { content } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit} className="AddComment">
-        <input
-          type="text"
-          name="content"
-          placeholder="Comment"
-          value={content}
-          onChange={this.handleChange}
-        />
-        <input className="create" type="submit" value="Create Comment" />
-      </form>
-    );
+    try {
+      const postRef = firestore.doc(`posts/${postId}`);
+      await postRef.collection("comments").add(comment);
+    } catch (error) {
+      console.error("Error creating comment:", error.message);
+    }
+
+    setCommentFields({ content: "" });
   }
+
+  const placeholder = User.isSignedIn ? "Comment" : "Sign In To Comment";
+
+  return (
+    <form onSubmit={handleSubmit} className="AddComment">
+      <input
+        type="text"
+        name="content"
+        placeholder={placeholder}
+        value={commentFields.content}
+        onChange={handleChange}
+      />
+      <input
+        className="create"
+        type="submit"
+        value="Create Comment"
+        disabled={!User.isSignedIn}
+      />
+    </form>
+  );
 }
 
 export default AddComment;

@@ -9,6 +9,9 @@ import SignIn from "./Users/SignIn";
 import SignUp from "./Users/SignUp";
 import CurrentUser from "./Users/CurrentUser";
 import EditUser from "./Users/EditUser";
+
+import PostsProvider from "../providers/Posts";
+
 import { UserContext } from "../providers/Authentication";
 
 export const paths = {
@@ -53,8 +56,10 @@ export default function ThinkPieceRouter() {
     <Router>
       <NavigationBar />
       <main className="Application">
-        <Route path={paths.Posts} exact component={Posts} />
-        <Route path={paths.Post} exact component={Post} />
+        <PostsProvider>
+          <Route path={paths.Posts} exact component={Posts} />
+          <Route path={paths.Post} exact component={Post} />
+        </PostsProvider>
         <AuthorizedRoute
           component={SignIn}
           condition={!isSignedIn}

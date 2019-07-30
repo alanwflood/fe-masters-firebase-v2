@@ -8,7 +8,7 @@ const Comment = ({ content, user, createdAt }) => {
       <span className="Comment--author">{user.displayName}</span>
       <span className="Comment--content">{content}</span>
       <span className="Comment--timestamp">
-        {distanceInWordsToNow(createdAt)} ago
+        {distanceInWordsToNow(createdAt.toDate())} ago
       </span>
     </article>
   );

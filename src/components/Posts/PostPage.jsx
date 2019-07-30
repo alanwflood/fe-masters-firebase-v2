@@ -29,7 +29,7 @@ export default function PostPage({ match }) {
 
       async function getPostData() {
         const postData = await getPost(postRef);
-        setPost(postData);
+        setPost({ ...postData, id: postData.uid });
       }
 
       const unsubscribePosts = postRef.onSnapshot(snapshot => {
@@ -58,11 +58,13 @@ export default function PostPage({ match }) {
   return (
     <div>
       {post.loading ? "Loading" : <Post {...post} />}
-      {post.loading || comments.loading ? (
-        "Loading"
-      ) : (
-        <Comments comments={comments.data} />
-      )}
+      <div>
+        {post.loading || comments.loading ? (
+          "Loading"
+        ) : (
+          <Comments comments={comments.data} postId={post.uid} />
+        )}
+      </div>
     </div>
   );
 }

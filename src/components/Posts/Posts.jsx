@@ -1,25 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { paths } from "../Router";
-import { firestore } from "../../firebase";
 import Post from "./Post";
 import { UserContext } from "../../providers/Authentication";
+import { PostsContext } from "../../providers/Posts";
 
 export default function Posts() {
-  const [posts, setPosts] = useState([]);
+  const Posts = useContext(PostsContext);
   const User = useContext(UserContext);
-
-  useEffect(() => {
-    const unsubscribe = firestore.collection("posts").onSnapshot(snapshot => {
-      const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setPosts(posts);
-    });
-
-    return function cleanup() {
-      unsubscribe();
-    };
-  }, []);
 
   return (
     <section className="Posts">
@@ -30,7 +19,7 @@ export default function Posts() {
           <Link to={paths.SignIn}>Sign In to Create a New Post!</Link>
         )}
       </div>
-      {posts.map(post => (
+      {Posts.map(post => (
         <Post {...post} key={post.id} />
       ))}
     </section>
