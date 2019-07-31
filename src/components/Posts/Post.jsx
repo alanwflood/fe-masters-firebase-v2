@@ -25,7 +25,7 @@ async function updateStars(postRef) {
   return update;
 }
 
-function Post({ id, title, content, user, createdAt, stars, comments }) {
+function Post({ id, title, content, user, createdAt, stars, commentCount }) {
   const postRef = getPost(id);
   const canDeletePost = userCanDelete(auth.currentUser, user);
   const canStarPost = !!auth.currentUser;
@@ -51,7 +51,7 @@ function Post({ id, title, content, user, createdAt, stars, comments }) {
             <span role="img" aria-label="comments">
               🙊
             </span>
-            {comments}
+            {commentCount}
           </p>
           <p>Posted by {user.displayName}</p>
           <p>{distanceInWordsToNow(createdAt.toDate())} ago</p>

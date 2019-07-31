@@ -33,7 +33,7 @@ export default function AddPost() {
         photoURL
       },
       stars: 0,
-      comments: 0,
+      commentCount: 0,
       createdAt: new Date()
     };
 

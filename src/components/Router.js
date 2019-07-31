@@ -1,6 +1,11 @@
 import React, { useContext } from "react";
 import NavigationBar from "./Nav";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
 
 import Posts from "./Posts/Posts";
 import Post from "./Posts/PostPage";
@@ -56,10 +61,6 @@ export default function ThinkPieceRouter() {
     <Router>
       <NavigationBar />
       <main className="Application">
-        <PostsProvider>
-          <Route path={paths.Posts} exact component={Posts} />
-          <Route path={paths.Post} exact component={Post} />
-        </PostsProvider>
         <AuthorizedRoute
           component={SignIn}
           condition={!isSignedIn}
@@ -71,12 +72,6 @@ export default function ThinkPieceRouter() {
           condition={!isSignedIn}
           path={paths.SignUp}
           redirectPath={paths.Proile}
-        />
-        <AuthorizedRoute
-          component={AddPost}
-          condition={isSignedIn}
-          path={paths.AddPost}
-          redirectPath={paths.SignIn}
         />
         <AuthorizedRoute
           exact
@@ -91,6 +86,19 @@ export default function ThinkPieceRouter() {
           path={paths.ProfileEdit}
           redirectPath={paths.SignIn}
         />
+
+        <Switch>
+          <AuthorizedRoute
+            component={AddPost}
+            condition={isSignedIn}
+            path={paths.AddPost}
+            redirectPath={paths.SignIn}
+          />
+          <PostsProvider>
+            <Route path={paths.Posts} exact component={Posts} />
+            <Route path={paths.Post} component={Post} />
+          </PostsProvider>
+        </Switch>
       </main>
     </Router>
   );
